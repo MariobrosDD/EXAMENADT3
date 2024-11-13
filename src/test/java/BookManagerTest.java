@@ -1,9 +1,10 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class BookManagerTest {
 
@@ -34,7 +35,7 @@ public class BookManagerTest {
     }
 
     @Test
-    public void testPrintReportFromAuthor() {
+    public void testPrintReportFromAuthor() throws IOException {
         // Genera el informe para "Frank Herbert" y verifica que el archivo existe
         bookManager.printReportFromAuthor("Frank Herbert");
         File reportFile = new File("Frank_Herbert_report.txt");
@@ -51,14 +52,14 @@ public class BookManagerTest {
     }
 
     @Test
-    public void testSaveBooksToJsonFile() {
+    public void testSaveBooksToJsonFile() throws IOException {
         bookManager.saveBooksToJsonFile(jsonFilePath);
         File jsonFile = new File(jsonFilePath);
         assertTrue(jsonFile.exists());
     }
 
     @Test
-    public void testLoadBooksFromJsonFile() {
+    public void testLoadBooksFromJsonFile() throws IOException {
         // Guarda en JSON y luego vuelve a cargar
         bookManager.saveBooksToJsonFile(jsonFilePath);
         BookManager loadedManager = new BookManager();
@@ -69,14 +70,14 @@ public class BookManagerTest {
     }
 
     @Test
-    public void testSaveBooksToBinaryFile() {
+    public void testSaveBooksToBinaryFile() throws IOException {
         bookManager.saveBooksToBinaryFile(binaryFilePath);
         File binaryFile = new File(binaryFilePath);
         assertTrue(binaryFile.exists());
     }
 
     @Test
-    public void testLoadBooksFromBinaryFile() {
+    public void testLoadBooksFromBinaryFile() throws IOException, ClassNotFoundException {
         // Guarda en binario y luego vuelve a cargar
         bookManager.saveBooksToBinaryFile(binaryFilePath);
         BookManager loadedManager = new BookManager();

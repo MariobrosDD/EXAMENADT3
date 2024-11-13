@@ -1,7 +1,8 @@
 import java.io.File;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         BookManager bookManager = new BookManager();
 
         // Intentar cargar libros desde el archivo JSON al inicio
