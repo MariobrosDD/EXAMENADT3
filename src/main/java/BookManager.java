@@ -32,7 +32,8 @@ public class BookManager {
 
     public void printReportFromAuthor(String author) throws IOException {
         List<Book> booksByAuthor = getBooks(author);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(author + "_Report.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(author + "_report.txt"))) {
+
             for (Book book : booksByAuthor) {
                 writer.write(book.toString());
                 writer.newLine();
