@@ -7,7 +7,7 @@ public class Book implements Serializable {
     private String title;
     @JsonProperty("autor")
     private String author;
-    @JsonProperty("año")
+    @JsonProperty("anio")
     private int year;
 
     public Book(){
