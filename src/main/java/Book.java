@@ -3,6 +3,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 public class Book implements Serializable {
+
+    //ATRIBUTOS CON EL JSONPROPERTY
     @JsonProperty("titulo")
     private String title;
     @JsonProperty("autor")
@@ -10,9 +12,11 @@ public class Book implements Serializable {
     @JsonProperty("anio")
     private int year;
 
+    //CONSTRUCTOR VACÍO
     public Book(){
 
     }
+    //CONSTRCUCTOR CON TODOS LOS ATRIBUTOS
     public Book(String title, String author, int year) {
         this.title = title;
         this.author = author;
@@ -46,6 +50,7 @@ public class Book implements Serializable {
         this.year = year;
     }
 
+    //METODO TOSTRING
     @Override
     public String toString() {
         return "Book{title='" + title + "', author='" + author + "', year=" + year + "}";
