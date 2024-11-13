@@ -1,57 +1,64 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class BookManager {
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
-    public BookManager() {
-        this.books = new ArrayList<>();
+    public BookManager(){
+
     }
 
-    // Agrega un libro a la lista (no persiste en archivo)
-    public void addBook(Book book) {
-        // TODO
+    public BookManager(List<Book> books) {
+        this.books = books;
     }
+
 
     public List<Book> getBooks() {
-        // TODO
+        return books;
     }
 
-    // Guardar el informe en un archivo de texto con el nombre del autor
-    public void printReportFromAuthor(String author) {
-        // La siguiente instrucción
-        String fileName = author.replaceAll(" ", "_") + "_report.txt";
-        // TODO
+    public List<Book> getBooks(String author) {
+        return books.stream()
+                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
+                .collect(Collectors.toList());
+    }
+    public void addBook(Book book) {
+        books.add(book);
     }
 
-    // Guarda los libros en formato json
-    public void saveBooksToJsonFile(String filePath) {
-        // TODO
+    public void printReportFromAuthor(String author) throws IOException {
+        List<Book> booksByAuthor = getBooks(author);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(author + "_Report.txt"))) {
+            for (Book book : booksByAuthor) {
+                writer.write(book.toString());
+                writer.newLine();
+            }
+        }
     }
 
-    // Carga los libros desde un archivo json
-    public void loadBooksFromJsonFile(String filePath) {
-        // TODO
+    public void saveBooksToJsonFile(String filePath) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(filePath), books);
     }
 
-    // Método para guardar los libros en un archivo binario
-    public void saveBooksToBinaryFile(String filePath) {
-        // TODO
+    public void loadBooksFromJsonFile(String filePath) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        books = mapper.readValue(new File(filePath), new TypeReference<List<Book>>() {});
     }
 
-    // Método para cargar los libros desde un archivo binario
-    public void loadBooksFromBinaryFile(String filePath) {
-        // TODO
+    public void saveBooksToBinaryFile(String filePath) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            out.writeObject(books);
+        }
+    }
+
+    public void loadBooksFromBinaryFile(String filePath) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+            books = (List<Book>) in.readObject();
+        }
     }
 }
